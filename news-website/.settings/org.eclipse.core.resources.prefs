@@ -1,2 +1,7 @@
 eclipse.preferences.version=1
+encoding//src/main/java/laptrinhjavaweb/controller/admin/api/NewsAPI.java=UTF-8
 encoding//src/main/java/laptrinhjavaweb/controller/web/HomeController.java=UTF-8
+encoding//src/main/java/laptrinhjavaweb/dao/impl/AbtractDAO.java=UTF-8
+encoding//src/main/java/laptrinhjavaweb/dao/impl/NewsDAO.java=UTF-8
+encoding//src/main/java/laptrinhjavaweb/utils/HttpUtils.java=UTF-8
+encoding/<project>=UTF-8
