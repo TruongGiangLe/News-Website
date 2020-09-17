@@ -15,12 +15,17 @@
 			class="navbar-buttons navbar-header pull-right collapse navbar-collapse"
 			role="navigation">
 			<ul class="nav ace-nav">
+			
 				<li class="light-blue dropdown-modal">
-				<a data-toggle="dropdown" href="#" class="dropdown-toggle"> Xin chào, fullName </a>
-				<li class="light-blue dropdown-modal"><a href='#'> <i
-						class="ace-icon fa fa-power-off"></i> Thoát
-				</a></li>
+				
+				<a data-toggle="dropdown" href="#" class="dropdown-toggle"> Xin chào, ${USERMODEL.fullName} </a>
+				
+				<li class="light-blue dropdown-modal">
+				<a href="<c:url value='/thoat?action=logout'/>"> <i class="ace-icon fa fa-power-off"></i> Thoát	</a>
 				</li>
+				
+				</li>
+			
 			</ul>
 		</div>
 	</div>

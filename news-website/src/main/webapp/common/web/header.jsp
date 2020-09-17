@@ -14,10 +14,18 @@
 				<li class="nav-item active"><a class="nav-link" href="#">Home
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Services</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+				<c:if test="${not empty USERMODEL }">
+					<li class="nav-item"><a class="nav-link" href="#">welcome,
+							${USERMODEL.fullName}</a></li>
+
+					<li class="nav-item"><a class="nav-link"
+						href="<c:url value='/thoat?action=logout'/>">Đăng xuất</a></li>
+				</c:if>
+
+				<c:if test="${empty USERMODEL }">
+					<li class="nav-item"><a class="nav-link"
+						href="<c:url value='/dang-nhap?action=login'/>">Đăng nhập</a></li>
+				</c:if>
 			</ul>
 		</div>
 	</div>

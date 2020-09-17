@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import laptrinhjavaweb.model.NewsModel;
+import laptrinhjavaweb.model.UserModel;
 import laptrinhjavaweb.service.INewsService;
 import laptrinhjavaweb.utils.HttpUtils;
+import laptrinhjavaweb.utils.SessionUtils;
 
 @WebServlet(urlPatterns = { "/api-admin-news" })
 public class NewsAPI extends HttpServlet {
@@ -36,6 +38,9 @@ public class NewsAPI extends HttpServlet {
 
 		// truyền chuổi json nhận đc từ client cho server, mapping nó với đối tượng
 		NewsModel newsModel = HttpUtils.of(request.getReader()).toModel(NewsModel.class);
+		
+		UserModel userModel = (UserModel) SessionUtils.getInstance().getValue(request, "USERMODEL");
+		newsModel.setCreatedBy(userModel.getUserName());
 		newsModel = newsService.save(newsModel);
 
 		// chuyển đối tượng thành json gửi lại cho client
@@ -56,7 +61,10 @@ public class NewsAPI extends HttpServlet {
 
 		// truyền chuổi json nhận đc từ client cho server, mapping nó với đối tượng
 		NewsModel updateNews = HttpUtils.of(request.getReader()).toModel(NewsModel.class);
-
+		
+		UserModel userModel = (UserModel) SessionUtils.getInstance().getValue(request, "USERMODEL");
+		updateNews.setModifiedBy(userModel.getUserName());
+		
 		updateNews = newsService.update(updateNews);
 		// chuyển đối tượng thành json gửi lại cho client
 		mapper.writeValue(response.getOutputStream(), updateNews);

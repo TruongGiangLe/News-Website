@@ -7,20 +7,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import laptrinhjavaweb.dao.IGenericDAO;
 import laptrinhjavaweb.mapper.IRowMapper;
 
 public class AbtractDAO<T> implements IGenericDAO<T> {
+	
+	// lấy các thông tin từ file db.properties
+	ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
+	
 	public Connection getConnection() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/newswebsite";
-			String username = "root";
-			String password = "1800545455";
+			Class.forName(resourceBundle.getString("driverName"));
+			String url = resourceBundle.getString("url");
+			String username = resourceBundle.getString("user");
+			String password = resourceBundle.getString("password");
 			return DriverManager.getConnection(url, username, password);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -168,5 +172,38 @@ public class AbtractDAO<T> implements IGenericDAO<T> {
 			}
 		}
 
+	}
+
+	@Override
+	public int count(String sql, Object... parameters) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try {
+			int count = 0;
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			// với những câu sql có tham số truyền vào
+			setParameters(statement, parameters);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				count = resultSet.getInt(1);
+			}
+			return count;
+		} catch (SQLException e) {
+			return 0;
+		} finally {
+			try {
+				if (connection != null)
+					connection.close();
+				if (statement != null)
+					statement.close();
+				if (resultSet != null)
+					resultSet.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				return 0;
+			}
+		}
 	}
 }

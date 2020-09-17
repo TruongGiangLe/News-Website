@@ -1,12 +1,14 @@
 package laptrinhjavaweb.model;
 
 
-public class UserModel extends AbstractModel{
+public class UserModel extends AbstractModel<UserModel>{
 	private String userName;
 	private String fullName;
 	private String password;
 	private int status;
 	private Long roleId;
+	
+	private RoleModel role;
 
 	public String getUserName() {
 		return userName;
@@ -37,6 +39,12 @@ public class UserModel extends AbstractModel{
 	}
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
+	}
+	public RoleModel getRole() {
+		return role;
+	}
+	public void setRole(RoleModel role) {
+		this.role = role;
 	}
 	
 }

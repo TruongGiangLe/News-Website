@@ -2,9 +2,12 @@ package laptrinhjavaweb.dao.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 import laptrinhjavaweb.dao.INewsDAO;
 import laptrinhjavaweb.mapper.NewsMapper;
 import laptrinhjavaweb.model.NewsModel;
+import laptrinhjavaweb.paging.IPagable;
 
 public class NewsDAO extends AbtractDAO<NewsModel> implements INewsDAO {
 
@@ -47,6 +50,27 @@ public class NewsDAO extends AbtractDAO<NewsModel> implements INewsDAO {
 				updateNews.getCreatedBy(), updateNews.getModifiedDate(), updateNews.getModifiedBy(),
 				updateNews.getId());
 
+	}
+
+	@Override
+	public List<NewsModel> findAll(IPagable pageble) {
+		// String sql = "SELECT * FROM news LIMIT ?,?";
+		StringBuilder sql = new StringBuilder("SELECT * FROM news");
+		if (pageble.getSorter() != null && StringUtils.isNotBlank(pageble.getSorter().getSortName())
+				// check khác null và khác ""
+				&& StringUtils.isNotBlank(pageble.getSorter().getSortBy())) {
+			sql.append(" ORDER BY " + pageble.getSorter().getSortName() + " " + pageble.getSorter().getSortBy() + "");
+		}
+		if (pageble.getOffset() != null && pageble.getLimit() != null) {
+			sql.append(" LIMIT " + pageble.getOffset() + ", " + pageble.getLimit() + "");
+		}
+		return query(sql.toString(), new NewsMapper());
+	}
+
+	@Override
+	public int getTotalItems() {
+		String sql = "SELECT count(*) FROM news";
+		return count(sql);
 	}
 
 }
